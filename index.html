@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUI Faucet Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tint"></i> SUI Faucet Manager</h1>
+            <div class="timer-display">
+                <div class="timer-label">Thời gian chạy:</div>
+                <div id="timer">00:00:00</div>
+            </div>
+        </header>
+
+        <div class="control-panel">
+            <div class="address-input">
+                <label for="wallet-address">Địa chỉ ví SUI:</label>
+                <input type="text" id="wallet-address" value="0xe0c4700d3e6de95283cfafb2f292ce34eaadab7a56470d0bfcdd0df3a0dbb002">
+            </div>
+            <div class="settings">
+                <div class="setting-item">
+                    <label for="max-attempts">Số lần chạy:</label>
+                    <input type="number" id="max-attempts" value="1000" min="1" max="10000">
+                </div>
+                <div class="setting-item">
+                    <label for="delay-seconds">Thời gian chờ (giây):</label>
+                    <input type="number" id="delay-seconds" value="10" min="5" max="3600">
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="start-btn" class="btn start"><i class="fas fa-play"></i> Bắt đầu</button>
+                <button id="stop-btn" class="btn stop" disabled><i class="fas fa-stop"></i> Dừng</button>
+                <button id="clear-btn" class="btn clear"><i class="fas fa-trash"></i> Xóa logs</button>
+            </div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-box">
+                <h3><i class="fas fa-gas-pump"></i> SUI Gas</h3>
+                <div class="stat-content">
+                    <div class="stat-item">
+                        <span class="stat-label">Thành công:</span>
+                        <span id="sui-success" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Thất bại:</span>
+                        <span id="sui-fail" class="stat-value">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <h3><i class="fas fa-coins"></i> USDC</h3>
+                <div class="stat-content">
+                    <div class="stat-item">
+                        <span class="stat-label">Thành công:</span>
+                        <span id="usdc-success" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Thất bại:</span>
+                        <span id="usdc-fail" class="stat-value">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <h3><i class="fas fa-chart-line"></i> Tổng quan</h3>
+                <div class="stat-content">
+                    <div class="stat-item">
+                        <span class="stat-label">Đã hoàn thành:</span>
+                        <span id="completed-runs" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Còn lại:</span>
+                        <span id="remaining-runs" class="stat-value">1000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-container">
+            <h2><i class="fas fa-terminal"></i> Logs</h2>
+            <div id="log-content"></div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="./ui.js" type="module"></script>
+</body>
+</html> 
