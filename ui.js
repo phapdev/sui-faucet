@@ -4,6 +4,7 @@
 // Cấu hình API URLs - thay vì sử dụng biến môi trường
 const API_CONFIG = {
     SUI_GAS_FAUCET_URL: 'https://faucet.testnet.sui.io/v1/gas',
+    APTOS_GAS_FAUCET_URL: 'https://faucet.testnet.aptoslabs.com/fund',
     USDC_FAUCET_URL: 'https://faucet.circle.com/api/graphql'
 };
 
@@ -125,7 +126,8 @@ async function runWithRetry(address, maxAttempts, delaySeconds) {
             
             // Yêu cầu SUI Gas
             try {
-                const suiResult = await requestSuiGas(address);
+                // const suiResult = await requestSuiGas(address);
+                const suiResult = await requestAptosGas(address);
                 stats.suiSuccess++;
                 suiSuccessElement.textContent = stats.suiSuccess;
                 addLogEntry(`SUI Gas faucet thành công: ${JSON.stringify(suiResult)}`, 'success');
@@ -188,6 +190,20 @@ function finishProcess() {
     }
     
     addLogEntry('Quá trình đã kết thúc', 'info');
+}
+async function requestAptosGas(address) {
+    try {
+        const url = API_CONFIG.APTOS_GAS_FAUCET_URL;
+        const payload = { address: address };
+        
+        const response = await axios.post(url, payload, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        return response.data;
+    } catch (error) {
+        throw new Error(`Yêu cầu SUI Gas thất bại: ${error.message}`);
+    }
 }
 
 // Hàm yêu cầu SUI Gas
@@ -312,6 +328,7 @@ function showToast(title, message, type = 'info') {
         }
     }, 5000);
 }
+
 
 // Khởi tạo ứng dụng
 function init() {
